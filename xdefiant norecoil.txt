@@ -1,11 +1,23 @@
--- XDefiant No Recoil Script for Logitech G Hub
+-- XDefiant No Recoil Script with Caps Lock Toggle for Logitech G Hub
+
+local noRecoilEnabled = false
 
 function OnEvent(event, arg)
-    if event == "MOUSE_BUTTON_PRESSED" and arg == 1 then
-        repeat
-            -- Set the mouse movement to zero to remove recoil completely
-            MoveMouseRelative(0, 0)  -- No recoil adjustment
-            Sleep(10)  -- Adjust sleep time as needed
-        until not IsMouseButtonPressed(1)
+    if event == "CAPSLOCK_TOGGLE" then
+        noRecoilEnabled = not noRecoilEnabled
+        if noRecoilEnabled then
+            OutputLogMessage("No-recoil script enabled\n")
+        else
+            OutputLogMessage("No-recoil script disabled\n")
+        end
+    end
+
+    if noRecoilEnabled then
+        if event == "MOUSE_BUTTON_PRESSED" and arg == 1 then
+            repeat
+                MoveMouseRelative(0, 0)  -- No recoil adjustment
+                Sleep(10)  -- Adjust sleep time as needed
+            until not IsMouseButtonPressed(1)
+        end
     end
 end
